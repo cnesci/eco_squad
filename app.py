@@ -6,8 +6,6 @@ app = Flask(__name__)
 projects=[]
 delete_projects=[]
 modify_projects=[]
-user_list=['admin']
-pass_list=['password']
 the_user_name=''
 
 #Connect database
@@ -19,29 +17,15 @@ con.execute("DROP TABLE IF EXISTS Project_table;")
 #Create table
 con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, start_date INTEGER, end_date INTEGER, people INTEGER)''')
 
-#Create account
-@app.route("/create_account")
-def create_account():
-    return render_template("register.html")
-
-@app.route('/register', methods=['POST'])
-def register():
-    user_list.append(request.form['username'])
-    pass_list.append(request.form['password'])
-    return redirect('/')
-
 #Login page
 @app.route('/login', methods=['POST'])
 def do_admin_login():
-    if (request.form['password'] in pass_list) and (request.form['username'] in user_list):
-        the_user_name = request.form['username']
-        session['logged_in'] = True
-        #Set cookie
-        resp = make_response(redirect('/'))
-        resp.set_cookie('Name',the_user_name)
-        return resp
-    else:
-        return render_template('login.html',creds='Invalid Credentials')
+    the_user_name = request.form['username']
+    session['logged_in'] = True
+    #Set cookie
+    resp = make_response(redirect('/'))
+    resp.set_cookie('Name',the_user_name)
+    return resp
 
 #Home page
 @app.route("/")
@@ -50,7 +34,8 @@ def index():
         return render_template('login.html')
     else:
         name = request.cookies.get('Name')
-        return render_template('index.html',name=name)
+        projects = con.execute("SELECT * FROM Project_table").fetchall()
+        return render_template('index.html',name=name,projects=projects)
 
 #Projects Page
 @app.route("/projects")
