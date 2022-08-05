@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
-{% block title %} Update Car {% endblock %}
+{% block title %} Edit Project {% endblock %}
 
 {% block description %}
-Enter the ID of the car you would like to update.
+Enter the ID of the Project you would like to edit, then change any fields.
 {% endblock %}
 
 {% block image %}
@@ -12,17 +12,19 @@ Enter the ID of the car you would like to update.
 {% block content %}
 <br>
 <div>
-  <form action="/modify_car", method="POST">
+  <form action="/modify_project", method="POST">
     ID:
     <input type="number" name="m_id" value=1><br>
-    Updated Make:
-    <input type="text" name="m_make"><br>
-    Updated Model:
-    <input type="text" name="m_model"><br>
-    Updated Year:
-    <input type="number" name="m_year" value=2021><br>
-    Updated Price:
-    <input type="number" name="m_price" value=10000><br>
+    Project Name:
+    <input type="text" name="m_project"><br>
+    Description:
+    <input type="text" name="m_description"><br>
+    Start Date:
+    <input type="number" name="m_start_date"><br>
+    End Date:
+    <input type="number" name="m_end_date"><br>
+    Number of People Required:
+    <input type="number" name="m_people"><br>
 
     <button class="sub" type="submit">Update</button>
   </form>

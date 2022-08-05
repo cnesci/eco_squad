@@ -3,7 +3,7 @@
 {% block title %} Delete Car {% endblock %}
 
 {% block description %}
-Enter the ID of the car you would like to delete.
+Enter the ID of the project you would like to delete.
 {% endblock %}
 
 {% block image %}
@@ -12,12 +12,11 @@ Enter the ID of the car you would like to delete.
 {% block content %}
 <br>
 <div>
-  <form action="/delete_car", method="POST">
+  <form action="/delete_project", method="POST">
     ID:
     <input type="number" name="m_id" value=1><br>
   
     <button class="sub" type="submit">Delete</button>
   </form>
 </div>
-
 {% endblock %}

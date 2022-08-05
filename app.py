@@ -5,17 +5,18 @@ import os
 app = Flask(__name__)
 projects=[]
 delete_projects=[]
+modify_projects=[]
 user_list=['admin']
 pass_list=['password']
 the_user_name=''
 
 #Connect database
-con = sqlite3.connect('projects-db.db', check_same_thread=False)
+con = sqlite3.connect('projects.db', check_same_thread=False)
 
 #If the tables already exists, delete 
 con.execute("DROP TABLE IF EXISTS Project_table;")
 
-#Create tables
+#Create table
 con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, start_date INTEGER, end_date INTEGER, people INTEGER)''')
 
 #Create account
@@ -51,19 +52,19 @@ def index():
         name = request.cookies.get('Name')
         return render_template('index.html',name=name)
 
-#NEW projects read
+#Projects Page
 @app.route("/projects")
-def new_projects():
-    new_projects = con.execute("SELECT * FROM Project_table").fetchall()
-    return render_template("projects.html",new_projects=new_projects)
+def projects():
+    projects = con.execute("SELECT * FROM Project_table").fetchall()
+    return render_template("projects.html",projects=projects)
 
-#NEW sort by
+#Sort By Button
 @app.route("/sort_by_dsc")
 def sort_by_dsc():
-    new_projects = con.execute('''SELECT * FROM Project_table ORDER BY price ASC''').fetchall()
-    return render_template("new_projects.html",new_projects=new_projects)
+    projects = con.execute('''SELECT * FROM Project_table ORDER BY end_date ASC''').fetchall()
+    return render_template("projects.html",projects=projects)
 
-#NEW add project
+#New Project
 @app.route("/new_project")
 def new_project():
     return render_template("add_project.html")
@@ -78,10 +79,9 @@ def add_project():
     "people" : request.form["m_people"]
     }
     con.execute('''INSERT INTO Project_table(project,description,start_date,end_date,people) VALUES(?,?,?,?,?)''', (projects["project"], projects["description"], projects["start_date"], projects["end_date"], projects["people"]))
-    
-    return redirect("/")
+    return redirect("/projects")
 
-#NEW delete project
+#Remove Project
 @app.route("/remove_project")
 def remove_project():
     return render_template("delete_project.html")
@@ -94,9 +94,9 @@ def delete_project():
     print(delete_project)
     con.execute('''DELETE FROM Project_table WHERE id=(?)''',
 (delete_projects["id"]))
-    return redirect("/")
+    return redirect("/projects")
 
-#NEW update project
+#Update project
 @app.route("/update_project")
 def update_project():
     return render_template("modify_project.html")
@@ -104,7 +104,16 @@ def update_project():
 @app.route("/modify_project", methods=["POST"])
 def modify_project():
     modify_projects = {
+    "id" : request.form["m_id"],
+    "project" : request.form["m_project"],
+    "description" : request.form["m_description"],
+    "start_date" : request.form["m_start_date"],
+    "end_date" : request.form["m_end_date"],
+    "people" : request.form["m_people"]
     }
+    con.execute('''UPDATE Project_table SET project=(?), description=(?), start_date=(?), end_date=(?), people=(?) WHERE id=(?)''',
+    (modify_projects["project"], modify_projects["description"], modify_projects["start_date"], modify_projects["end_date"], modify_projects["people"], modify_projects["id"]))
+    return redirect("/projects")    
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)
