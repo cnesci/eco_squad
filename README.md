@@ -1,3 +1,3 @@
-Database: projects.db
-Table: Project_table
+Database: projects.db <br>
+Table: Project_table <br>
 List: projects
