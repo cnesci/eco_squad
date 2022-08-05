@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %} Update Car {% endblock %}
+
+{% block description %}
+Enter the ID of the car you would like to update.
+{% endblock %}
+
+{% block image %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div>
+  <form action="/modify_car", method="POST">
+    ID:
+    <input type="number" name="m_id" value=1><br>
+    Updated Make:
+    <input type="text" name="m_make"><br>
+    Updated Model:
+    <input type="text" name="m_model"><br>
+    Updated Year:
+    <input type="number" name="m_year" value=2021><br>
+    Updated Price:
+    <input type="number" name="m_price" value=10000><br>
+
+    <button class="sub" type="submit">Update</button>
+  </form>
+</div>
+
+{% endblock %}

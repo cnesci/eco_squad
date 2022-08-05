@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %} Projects {% endblock %}
+
+{% block description %}
+{% endblock %}
+{% block image %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search...">
+    <br>
+    <table id="myTable" class="table">
+        <thead>
+            <th>Project</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Number of People Required</th>
+        </thead>
+        {% for c in new_cars %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+            <td>{{ c[3] }}</td>
+            <td>{{ c[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<a href="/new_project" class="btn btn-info" role="button">Add Project</a>
+<a href="sort_by_dsc" class="btn btn-info" role="button">Sort By Due Date</a>
+{% endblock %}
+
+{% block main_table %} {% endblock %}

@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %} Add Project {% endblock %}
+
+{% block description %}
+Enter a project to add it to the database.
+{% endblock %}
+
+{% block image %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div>
+  <form action="/add_project", method="POST">
+  Project Name:
+  <input type="text" name="m_project"><br>
+  Description:
+  <input type="text" name="m_description"><br>
+  Start Date:
+  <input type="number" name="m_start_date"><br>
+  End Date:
+  <input type="number" name="m_end_date"><br>
+  Number of People Required:
+  <input type="number" name="m_people"><br>
+
+  <button class="sub" type="submit">Add</button>
+  </form>
+</div>
+
+{% endblock %}

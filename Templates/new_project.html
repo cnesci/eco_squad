@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %} New Project {% endblock %}
+
+{% block description %}
+{% endblock %}
+{% block image %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div>
+    <form action="/add_project", method="POST">
+    Project Name:
+    <input type="text" name="m_project"><br>
+    Description:
+    <input type="text" name="m_description"><br>
+    Start Date:
+    <input type="number" name="m_start_date"><br>
+    End Date:
+    <input type="number" name="m_end_date"><br>
+    Number of People Required:
+    <input type="number" name="m_people"><br>
+
+    <button class="sub" type="submit">Add</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block main_table %} {% endblock %}

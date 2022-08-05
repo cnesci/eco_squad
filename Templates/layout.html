@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eco Squad Web App</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #1f2933;
+    }
+
+    li {
+    float: left;
+    }
+
+    li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    }
+
+    li a:hover {
+    background-color: #4dca77;
+    border-radius: 5px;
+    color:ivory;
+    text-decoration: none;
+    }
+
+    a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: #05386b;
+    }
+
+    body {
+        background-color:#1d2025;
+    }
+
+    h1 {
+        color:white
+    }
+
+    p {
+        color:white
+    }
+
+    .table {
+        color:white
+    }
+
+    input, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color:#f0f4f8;
+    color: black;
+    }
+
+    .sub {
+    width: 100%;
+    background-color: #486581;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    .sub:hover {
+    background-color: #334e68;
+    }
+
+    div {
+    color:white;
+    border-radius: 7px;
+    background-color:#102a43;
+    padding: 20px;
+    margin: 15px;
+    }
+
+    .invalid {
+      color:red;
+      font-size: 20px;
+    }
+
+    .haveucreated {
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .create {
+      padding: 10px;
+      margin: 20px;
+      background-color: #4dca77;
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .create:hover {
+      color: white;
+      text-decoration: none;
+      background-color: #2f9250;
+    }
+
+    .inlist {
+    display: block;
+    margin-top: 6px;
+    padding: 8px;
+    text-decoration: none;
+    color:white;
+    background-color:#4dca77;
+    border-radius: 4px;
+    margin-left: 1%;
+    }
+
+    .inlist2 {
+    display: block;
+    margin-top: 6px;
+    margin-left: 1%;
+    padding: 8px;
+    text-decoration: none;
+    color:white;
+    background-color:#45e477;
+    border-radius:4px;
+    }
+
+    .homey {
+      background-color:lightseagreen !important;
+      border-radius:4px !important;
+      margin-left: 5% !important;
+      margin-right: 5% !important;
+    }
+
+    .brow {
+      background-color: #45e477;
+      margin-left: 25%;
+      margin-right: 25%;
+      padding-left: 10%;
+      border-radius: 4px;
+    }
+
+  </style>
+</head>
+<body>
+  <ul class="navbar">
+    <li><a href="/">Home</a></li>
+    <li><a href="/projects">Projects</a></li>
+    <li><a href="/maintenance">Maintenance</a></li>
+    <li><a href="/calendar">Calendar</a></li>
+    <li><a href="/photos">Photos</a></li>
+    <li style="float:right"><a class="active" href="/feedback">Feedback</a></li>
+    <li style="float:right"><a class="active" href="/notices">Notices</a></li>
+  </ul>
+  
+  <h1>{% block title %} {% endblock %}</h1>
+  <p>{% block description %} {% endblock %}</p>
+  {% block image %} {% endblock %}
+  <p class="content">{% block content %} {% endblock %}</p>
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+  
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+      }
+    }
+</script>
+</body>
+</html>

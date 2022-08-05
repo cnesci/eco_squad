@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %} Create Account {% endblock %}
+
+{% block description %} Please enter your credentials below to log into the app. {% endblock %}
+
+{% block content %}
+<div class="login-form">
+	<form action="/register" method="POST">
+	Username:
+	<input type="text" value="" placeholder="Username" name="username">
+	Password:
+	<input type="password" value="" placeholder="Password" name="password">	
+	<input type="submit" value="Register" class="sub">
+	</form>
+</div>
+{% endblock %}
