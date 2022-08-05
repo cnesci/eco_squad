@@ -34,5 +34,30 @@ Your current projects are lsited below:
         {% endfor %}
     </table>
     <a href="/projects" class="btn btn-info" role="button">View All Projects</a>
+    <input type="text" id="myInput" onkeyup="nameSearch()" placeholder="Search..." value={{ name }}>
 </div>
+
+<script>
+//Filter table by name
+var input, filter, table, tr, td, i, txtValue;
+input = document.getElementById("myInput");
+filter = input.value.toUpperCase();
+table = document.getElementById("myTable");
+tr = table.getElementsByTagName("tr");
+
+for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[5];
+    if (td) {
+    txtValue = td.textContent || td.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+    } else {
+        tr[i].style.display = "none";
+    }
+    }
+}
+
+var x = document.getElementById("myInput");
+x.style.display = "none";
+</script>
 {% endblock %}

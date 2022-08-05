@@ -34,9 +34,8 @@ def index():
         return render_template('login.html')
     else:
         name = request.cookies.get('Name')
-        input = name
         projects = con.execute("SELECT * FROM Project_table").fetchall()
-        return render_template('index.html',name=name,projects=projects,input=input)
+        return render_template('index.html',name=name,projects=projects)
 
 #Projects Page
 @app.route("/projects")
