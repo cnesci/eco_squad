@@ -1,24 +1,15 @@
 {% extends "layout.html" %}
 
-{% block title %} Login {% endblock %}
+{% block title %} Log In {% endblock %}
 
-{% block description %} Please enter your credentials below to log into the app. {% endblock %}
+{% block description %} Please enter your name below to log in. {% endblock %}
 
 {% block content %}
 <div class="login-form">
 	<form action="/login" method="POST">
-	Username:
-	<input type="text" value="" placeholder="Username" name="username">
-	Password:
-	<input type="password" value="" placeholder="Password" name="password">	
+	First Name:
+	<input type="text" value="" name="username">
 	<input type="submit" value="Log in" class="sub">
 	</form>
-	<h1 class="invalid">{{ creds }}</h1>
-</div>
-<br>
-<br>
-<div>
-	<h1 class="haveucreated">Have you created an account?</h1>
-	<a class="create" href="/create_account">Register Here</a>	
 </div>
 {% endblock %}

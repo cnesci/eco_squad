@@ -3,10 +3,36 @@
 {% block title %} Welcome, {{ name }}! {% endblock %}
 
 {% block description %}
+Your current projects are lsited below:
 {% endblock %}
 
 {% block image %}
 {% endblock %}
 
 {% block content %}
+<br>
+<div>
+    <br>
+    <table id="myTable" class="table">
+        <thead>
+            <th>ID</th>
+            <th>Project</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>People Assigned</th>
+        </thead>
+        {% for c in projects %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+            <td>{{ c[3] }}</td>
+            <td>{{ c[4] }}</td>
+            <td>{{ c[5] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/projects" class="btn btn-info" role="button">View All Projects</a>
+</div>
 {% endblock %}
