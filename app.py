@@ -6,6 +6,7 @@ app = Flask(__name__)
 projects=[]
 tasks=[]
 delete_projects=[]
+delete_tasks=[]
 modify_projects=[]
 the_user_name=''
 
@@ -79,7 +80,6 @@ def delete_project():
     delete_projects = {
     "id" : request.form["m_id"]
     }
-    print(delete_project)
     con.execute('''DELETE FROM Project_table WHERE id=(?)''',
 (delete_projects["id"]))
     return redirect("/projects")
@@ -124,6 +124,20 @@ def add_task():
     "people" : request.form["m_people"]
     }
     con.execute('''INSERT INTO Maint_table(task,description,start_date,frequency,people) VALUES(?,?,?,?,?)''', (tasks["task"], tasks["description"], tasks["start_date"], tasks["frequency"], tasks["people"]))
+    return redirect("/maintenance")
+
+#Remove Task
+@app.route("/remove_task")
+def remove_task():
+    return render_template("delete_task.html")
+
+@app.route("/delete_task", methods=["POST"])
+def delete_task():
+    delete_tasks = {
+    "id" : request.form["m_id"]
+    }
+    con.execute('''DELETE FROM Maint_table WHERE id=(?)''',
+(delete_tasks["id"]))
     return redirect("/maintenance")
 
 app.secret_key = os.urandom(12)
