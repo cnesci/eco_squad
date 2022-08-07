@@ -8,6 +8,7 @@ tasks=[]
 delete_projects=[]
 delete_tasks=[]
 modify_projects=[]
+modify_tasks=[]
 the_user_name=''
 
 #Connect database
@@ -126,7 +127,7 @@ def add_task():
     con.execute('''INSERT INTO Maint_table(task,description,start_date,frequency,people) VALUES(?,?,?,?,?)''', (tasks["task"], tasks["description"], tasks["start_date"], tasks["frequency"], tasks["people"]))
     return redirect("/maintenance")
 
-#Remove Task
+#Remove task
 @app.route("/remove_task")
 def remove_task():
     return render_template("delete_task.html")
@@ -138,6 +139,25 @@ def delete_task():
     }
     con.execute('''DELETE FROM Maint_table WHERE id=(?)''',
 (delete_tasks["id"]))
+    return redirect("/maintenance")
+
+#Update task
+@app.route("/update_task")
+def update_task():
+    return render_template("modify_task.html")
+
+@app.route("/modify_task", methods=["POST"])
+def modify_task():
+    modify_tasks = {
+    "id" : request.form["m_id"],
+    "task" : request.form["m_task"],
+    "description" : request.form["m_description"],
+    "start_date" : request.form["m_start_date"],
+    "frequency" : request.form["m_frequency"],
+    "people" : request.form["m_people"]
+    }
+    con.execute('''UPDATE Maint_table SET task=(?), description=(?), start_date=(?), frequency=(?), people=(?) WHERE id=(?)''',
+    (modify_tasks["task"], modify_tasks["description"], modify_tasks["start_date"], modify_tasks["frequency"], modify_tasks["people"], modify_tasks["id"]))
     return redirect("/maintenance")
 
 app.secret_key = os.urandom(12)
