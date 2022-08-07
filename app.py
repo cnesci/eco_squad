@@ -40,7 +40,8 @@ def index():
     else:
         name = request.cookies.get('Name')
         projects = con.execute("SELECT * FROM Project_table").fetchall()
-        return render_template('index.html',name=name,projects=projects)
+        tasks = con.execute("SELECT * FROM Maint_table").fetchall()
+        return render_template('index.html',name=name,projects=projects,tasks=tasks)
 
 #Projects Page
 @app.route("/projects")
