@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %} Maintenance {% endblock %}
+
+{% block description %}
+Tasks that should be regularly completed.
+{% endblock %}
+{% block image %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search...">
+    <br>
+    <table id="myTable" class="table">
+        <thead>
+            <th>ID</th>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>Frequency</th>
+            <th>People Assigned</th>
+        </thead>
+        {% for c in projects %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+            <td>{{ c[3] }}</td>
+            <td>{{ c[4] }}</td>
+            <td>{{ c[5] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<a href="/new_project" class="btn btn-info" role="button">Add Project</a>
+<a href="/remove_project" class="btn btn-info" role="button">Remove Project</a>
+<a href="/update_project" class="btn btn-info" role="button">Update Project</a>
+
+{% endblock %}
+
+{% block main_table %} {% endblock %}

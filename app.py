@@ -4,6 +4,7 @@ import os
 
 app = Flask(__name__)
 projects=[]
+tasks=[]
 delete_projects=[]
 modify_projects=[]
 the_user_name=''
@@ -13,9 +14,11 @@ con = sqlite3.connect('projects.db', check_same_thread=False)
 
 #If the tables already exists, delete 
 con.execute("DROP TABLE IF EXISTS Project_table;")
+con.execute("DROP TABLE IF EXISTS Maint_table;")
 
-#Create table
-con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, start_date INTEGER, end_date INTEGER, people INTEGER)''')
+#Create tables
+con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, start_date INTEGER, end_date INTEGER, people TEXT)''')
+con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, people INTEGER)''')
 
 #Login page
 @app.route('/login', methods=['POST'])
@@ -98,7 +101,13 @@ def modify_project():
     }
     con.execute('''UPDATE Project_table SET project=(?), description=(?), start_date=(?), end_date=(?), people=(?) WHERE id=(?)''',
     (modify_projects["project"], modify_projects["description"], modify_projects["start_date"], modify_projects["end_date"], modify_projects["people"], modify_projects["id"]))
-    return redirect("/projects")    
+    return redirect("/projects")
+
+#Maintenance page
+@app.route("/maintenance")
+def maintenance():
+    tasks = con.execute("SELECT * FROM Maint_table").fetchall()
+    return render_template("maintenance.html",tasks=tasks)
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)
