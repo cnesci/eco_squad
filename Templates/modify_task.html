@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
-{% block title %} Update Project {% endblock %}
+{% block title %} Update Task {% endblock %}
 
 {% block description %}
-Enter the ID of the Project you would like to update, then change the required fields.
+Enter the ID of the Task you would like to update, then change the required fields.
 {% endblock %}
 
 {% block image %}
@@ -12,19 +12,19 @@ Enter the ID of the Project you would like to update, then change the required f
 {% block content %}
 <br>
 <div>
-  <form action="/modify_project", method="POST">
+  <form action="/modify_task", method="POST">
     ID:
     <input type="number" name="m_id" value=1><br>
-    Updated Project Name:
-    <input type="text" name="m_project"><br>
+    Updated Task Name:
+    <input type="text" name="m_task" placeholder="Feed the fish"><br>
     Updated Description:
     <input type="text" name="m_description"><br>
     Updated Start Date:
     <input type="date" name="m_start_date"><br>
-    Updated End Date:
-    <input type="date" name="m_end_date"><br>
+    Updated Frequency:
+    <input type="text" name="m_frequency" placeholder="Every Wednesday"><br>
     Updated People Assigned:
-    <input type="text" name="m_people"><br>
+    <input type="text" name="m_people" placeholder="John, Liam, Jessica"><br>
 
     <button class="sub" type="submit">Update</button>
   </form>

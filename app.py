@@ -4,8 +4,11 @@ import os
 
 app = Flask(__name__)
 projects=[]
+tasks=[]
 delete_projects=[]
+delete_tasks=[]
 modify_projects=[]
+modify_tasks=[]
 the_user_name=''
 
 #Connect database
@@ -13,9 +16,11 @@ con = sqlite3.connect('projects.db', check_same_thread=False)
 
 #If the tables already exists, delete 
 con.execute("DROP TABLE IF EXISTS Project_table;")
+con.execute("DROP TABLE IF EXISTS Maint_table;")
 
-#Create table
-con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, start_date INTEGER, end_date INTEGER, people INTEGER)''')
+#Create tables
+con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, start_date INTEGER, end_date INTEGER, people TEXT)''')
+con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, people INTEGER)''')
 
 #Login page
 @app.route('/login', methods=['POST'])
@@ -35,7 +40,8 @@ def index():
     else:
         name = request.cookies.get('Name')
         projects = con.execute("SELECT * FROM Project_table").fetchall()
-        return render_template('index.html',name=name,projects=projects)
+        tasks = con.execute("SELECT * FROM Maint_table").fetchall()
+        return render_template('index.html',name=name,projects=projects,tasks=tasks)
 
 #Projects Page
 @app.route("/projects")
@@ -76,7 +82,6 @@ def delete_project():
     delete_projects = {
     "id" : request.form["m_id"]
     }
-    print(delete_project)
     con.execute('''DELETE FROM Project_table WHERE id=(?)''',
 (delete_projects["id"]))
     return redirect("/projects")
@@ -98,7 +103,63 @@ def modify_project():
     }
     con.execute('''UPDATE Project_table SET project=(?), description=(?), start_date=(?), end_date=(?), people=(?) WHERE id=(?)''',
     (modify_projects["project"], modify_projects["description"], modify_projects["start_date"], modify_projects["end_date"], modify_projects["people"], modify_projects["id"]))
-    return redirect("/projects")    
+    return redirect("/projects")
+
+#Maintenance page
+@app.route("/maintenance")
+def maintenance():
+    tasks = con.execute("SELECT * FROM Maint_table").fetchall()
+    return render_template("maintenance.html",tasks=tasks)
+
+#New maintenance task
+@app.route("/new_task")
+def new_task():
+    return render_template("add_task.html")
+
+@app.route("/add_task", methods=["POST"])
+def add_task():
+    tasks = {
+    "task" : request.form["m_task"],
+    "description" : request.form["m_description"],
+    "start_date" : request.form["m_start_date"],
+    "frequency" : request.form["m_frequency"],
+    "people" : request.form["m_people"]
+    }
+    con.execute('''INSERT INTO Maint_table(task,description,start_date,frequency,people) VALUES(?,?,?,?,?)''', (tasks["task"], tasks["description"], tasks["start_date"], tasks["frequency"], tasks["people"]))
+    return redirect("/maintenance")
+
+#Remove task
+@app.route("/remove_task")
+def remove_task():
+    return render_template("delete_task.html")
+
+@app.route("/delete_task", methods=["POST"])
+def delete_task():
+    delete_tasks = {
+    "id" : request.form["m_id"]
+    }
+    con.execute('''DELETE FROM Maint_table WHERE id=(?)''',
+(delete_tasks["id"]))
+    return redirect("/maintenance")
+
+#Update task
+@app.route("/update_task")
+def update_task():
+    return render_template("modify_task.html")
+
+@app.route("/modify_task", methods=["POST"])
+def modify_task():
+    modify_tasks = {
+    "id" : request.form["m_id"],
+    "task" : request.form["m_task"],
+    "description" : request.form["m_description"],
+    "start_date" : request.form["m_start_date"],
+    "frequency" : request.form["m_frequency"],
+    "people" : request.form["m_people"]
+    }
+    con.execute('''UPDATE Maint_table SET task=(?), description=(?), start_date=(?), frequency=(?), people=(?) WHERE id=(?)''',
+    (modify_tasks["task"], modify_tasks["description"], modify_tasks["start_date"], modify_tasks["frequency"], modify_tasks["people"], modify_tasks["id"]))
+    return redirect("/maintenance")
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)
