@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %} New Project {% endblock %}
+{% block title %} New Task {% endblock %}
 
 {% block description %}
 {% endblock %}
@@ -10,15 +10,15 @@
 {% block content %}
 <br>
 <div>
-    <form action="/add_project", method="POST">
-    Project Name:
-    <input type="text" name="m_project"><br>
+    <form action="/add_task", method="POST">
+    Task Name:
+    <input type="text" name="m_task"><br>
     Description:
     <input type="text" name="m_description"><br>
     Start Date:
     <input type="number" name="m_start_date"><br>
-    End Date:
-    <input type="number" name="m_end_date"><br>
+    Frequency:
+    <input type="text" name="m_frequency"><br>
     People Assigned:
     <input type="text" name="m_people"><br>
 

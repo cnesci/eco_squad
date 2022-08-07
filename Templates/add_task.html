@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
-{% block title %} Add Project {% endblock %}
+{% block title %} Add Task {% endblock %}
 
 {% block description %}
-Enter a project to add it to the database. If a field is not required you may leave it blank.
+Enter a task to add it to the database. If a field is not required you may leave it blank.
 {% endblock %}
 
 {% block image %}
@@ -12,15 +12,15 @@ Enter a project to add it to the database. If a field is not required you may le
 {% block content %}
 <br>
 <div>
-  <form action="/add_project", method="POST">
-  Project Name:
-  <input type="text" name="m_project"><br>
+  <form action="/add_task", method="POST">
+  Task Name:
+  <input type="text" name="m_task" placeholder="Feed the fish"><br>
   Description:
   <input type="text" name="m_description"><br>
   Start Date:
   <input type="date" name="m_start_date"><br>
-  End Date:
-  <input type="date" name="m_end_date"><br>
+  Frequency:
+  <input type="text" name="m_frequency" placeholder="Every Wednesday"><br>
   People Assigned:
   <input type="text" name="m_people" placeholder="John, Liam, Jessica"><br>
 

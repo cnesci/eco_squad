@@ -109,5 +109,22 @@ def maintenance():
     tasks = con.execute("SELECT * FROM Maint_table").fetchall()
     return render_template("maintenance.html",tasks=tasks)
 
+#New maintenance task
+@app.route("/new_task")
+def new_task():
+    return render_template("add_task.html")
+
+@app.route("/add_task", methods=["POST"])
+def add_task():
+    tasks = {
+    "task" : request.form["m_task"],
+    "description" : request.form["m_description"],
+    "start_date" : request.form["m_start_date"],
+    "frequency" : request.form["m_frequency"],
+    "people" : request.form["m_people"]
+    }
+    con.execute('''INSERT INTO Maint_table(task,description,start_date,frequency,people) VALUES(?,?,?,?,?)''', (tasks["task"], tasks["description"], tasks["start_date"], tasks["frequency"], tasks["people"]))
+    return redirect("/maintenance")
+
 app.secret_key = os.urandom(12)
 app.run(debug=True)

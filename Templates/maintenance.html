@@ -22,7 +22,7 @@ Tasks that should be regularly completed.
             <th>Frequency</th>
             <th>People Assigned</th>
         </thead>
-        {% for c in projects %}
+        {% for c in tasks %}
         <tr>
             <td>{{ c[0] }}</td>
             <td>{{ c[1] }}</td>
@@ -35,7 +35,7 @@ Tasks that should be regularly completed.
     </table>
 </div>
 
-<a href="/new_project" class="btn btn-info" role="button">Add Project</a>
+<a href="/new_task" class="btn btn-info" role="button">Add Task</a>
 <a href="/remove_project" class="btn btn-info" role="button">Remove Project</a>
 <a href="/update_project" class="btn btn-info" role="button">Update Project</a>
 
