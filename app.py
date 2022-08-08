@@ -161,5 +161,10 @@ def modify_task():
     (modify_tasks["task"], modify_tasks["description"], modify_tasks["start_date"], modify_tasks["frequency"], modify_tasks["people"], modify_tasks["id"]))
     return redirect("/maintenance")
 
+#Calendar
+@app.route("/calendar")
+def calendar():
+    return render_template("calendar.html")
+
 app.secret_key = os.urandom(12)
 app.run(debug=True)
