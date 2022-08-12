@@ -166,5 +166,10 @@ def modify_task():
 def calendar():
     return render_template("calendar.html")
 
+#Photos Page
+@app.route("/photos")
+def photos():
+    return render_template("photos.html")
+
 app.secret_key = os.urandom(12)
 app.run(debug=True)
