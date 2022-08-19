@@ -20,7 +20,13 @@ Enter a task to add it to the database. If a field is not required you may leave
   Start Date:
   <input type="date" name="m_start_date"><br>
   Frequency:
-  <input type="text" name="m_frequency" placeholder="Every Wednesday"><br>
+  <select name="m_frequency">
+    <option value="Daily">Daily</option>
+    <option value="Weekly">Weekly</option>
+    <option value="Fortnightly">Fortnightly</option>
+    <option value="Monthly">Monthly</option>
+    <option value="Yearly">Yearly</option>
+  </select>
   People Assigned:
   <input type="text" name="m_people" placeholder="John, Liam, Jessica"><br>
 

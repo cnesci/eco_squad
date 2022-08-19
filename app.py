@@ -19,7 +19,7 @@ con.execute("DROP TABLE IF EXISTS Project_table;")
 con.execute("DROP TABLE IF EXISTS Maint_table;")
 
 #Create tables
-con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, start_date INTEGER, end_date INTEGER, people TEXT)''')
+con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, frequency TEXT, start_date INTEGER, end_date INTEGER, people TEXT)''')
 con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, people INTEGER)''')
 
 #Login page
@@ -65,11 +65,12 @@ def add_project():
     projects = {
     "project" : request.form["m_project"],
     "description" : request.form["m_description"],
+    "frequency" : request.form["m_frequency"],
     "start_date" : request.form["m_start_date"],
     "end_date" : request.form["m_end_date"],
     "people" : request.form["m_people"]
     }
-    con.execute('''INSERT INTO Project_table(project,description,start_date,end_date,people) VALUES(?,?,?,?,?)''', (projects["project"], projects["description"], projects["start_date"], projects["end_date"], projects["people"]))
+    con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', (projects["project"], projects["description"], projects["frequency"], projects["start_date"], projects["end_date"], projects["people"]))
     return redirect("/projects")
 
 #Remove Project
