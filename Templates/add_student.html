@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %} Add Student {% endblock %}
+
+{% block content %}
+<br>
+<div>
+  <form action="/add_student", method="POST">
+  First Name:
+  <input type="text" name="m_first_name"><br>
+  Last Name:
+  <input type="text" name="m_last_name"><br>
+  Year:
+  <input type="number" name="m_year"><br>
+
+  <button class="sub" type="submit">Add</button>
+  </form>
+</div>
+{% endblock %}

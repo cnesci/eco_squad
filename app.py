@@ -9,6 +9,7 @@ delete_projects=[]
 delete_tasks=[]
 modify_projects=[]
 modify_tasks=[]
+students=[]
 the_user_name=''
 
 #Connect database
@@ -17,10 +18,12 @@ con = sqlite3.connect('projects.db', check_same_thread=False)
 #If the tables already exists, delete 
 con.execute("DROP TABLE IF EXISTS Project_table;")
 con.execute("DROP TABLE IF EXISTS Maint_table;")
+con.execute("DROP TABLE IF EXISTS Student_table;")
 
 #Create tables
 con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, frequency TEXT, start_date INTEGER, end_date INTEGER, people TEXT)''')
 con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, people INTEGER)''')
+con.execute('''CREATE TABLE Student_table(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, year INTEGER, project_id INTEGER)''')
 
 #Login page
 @app.route('/login', methods=['POST'])
@@ -166,6 +169,21 @@ def modify_task():
 @app.route("/calendar")
 def calendar():
     return render_template("calendar.html")
+
+#New student
+@app.route("/new_student")
+def new_student():
+    return render_template("add_student.html")
+
+@app.route("/add_student", methods=["POST"])
+def add_student():
+    students = {
+    "first_name" : request.form["m_first_name"],
+    "last_name" : request.form["m_last_name"],
+    "year" : request.form["m_year"],
+    }
+    con.execute('''INSERT INTO Student_table(first_name,last_name,year) VALUES(?,?,?)''', (students["first_name"], students["last_name"], students["year"]))
+    return redirect("/projects")
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)
