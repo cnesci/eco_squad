@@ -25,7 +25,7 @@
         {% for c in projects %}
         <tr>
             <td>{{ c[0] }}</td>
-            <td>{{ c[1] }}</td>
+            <td><a href="/details" class="detail">{{ c[1] }}</a></td>
             <td>{{ c[2] }}</td>
             <td>{{ c[3] }}</td>
             <td>{{ c[4] }}</td>
@@ -39,6 +39,24 @@
 <a href="/new_project" class="btn btn-info" role="button">Add Project</a>
 <a href="/remove_project" class="btn btn-info" role="button">Remove Project</a>
 <a href="/update_project" class="btn btn-info" role="button">Update Project</a>
-{% endblock %}
 
+<div>
+    <thead>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Year Level</th>
+    </thead>
+    {% for c in students %}
+    <tr>
+        <td>{{ c[0] }}</td>
+        <td>{{ c[1] }}</td>
+        <td>{{ c[2] }}</td>
+        <td>{{ c[3] }}</td>
+    </tr>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
 {% block main_table %} {% endblock %}

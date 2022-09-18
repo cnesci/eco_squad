@@ -25,6 +25,9 @@ con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, 
 con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, people INTEGER)''')
 con.execute('''CREATE TABLE Student_table(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, year INTEGER, project_id INTEGER)''')
 
+#Dummy data
+con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', ("Plant peas", "yesyesm", "Daily", "start_date", "end_date", "Tom, Jerry"))
+
 #Login page
 @app.route('/login', methods=['POST'])
 def do_admin_login():
@@ -184,6 +187,14 @@ def add_student():
     }
     con.execute('''INSERT INTO Student_table(first_name,last_name,year) VALUES(?,?,?)''', (students["first_name"], students["last_name"], students["year"]))
     return redirect("/projects")
+
+#Show project details
+@app.route("/details")
+def details():
+    projects = con.execute('''SELECT people FROM Project_table WHERE id=(1)''').fetchall()
+    return render_template("details.html", projects=projects)
+
+#where id=1 get students
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %} Details {% endblock %}
+
+{% block description %}
+{% endblock %}
+{% block image %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search...">
+    <br>
+    <table id="myTable" class="table">
+        <thead>
+            <th>ID</th>
+            <th>Project</th>
+            <th>People Assigned</th>
+        </thead>
+        {% for c in projects %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[6] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
