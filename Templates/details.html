@@ -10,19 +10,15 @@
 {% block content %}
 <br>
 <div>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search...">
+    <h2>Project: {{ project }}</h2>
     <br>
     <table id="myTable" class="table">
         <thead>
-            <th>ID</th>
-            <th>Project</th>
-            <th>People Assigned</th>
+            <th>Students Assigned</th>
         </thead>
-        {% for c in projects %}
+        {% for c in students %}
         <tr>
             <td>{{ c[0] }}</td>
-            <td>{{ c[1] }}</td>
-            <td>{{ c[6] }}</td>
         </tr>
         {% endfor %}
     </table>

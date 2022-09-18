@@ -191,8 +191,9 @@ def add_student():
 #Show project details
 @app.route("/details")
 def details():
-    projects = con.execute('''SELECT people FROM Project_table WHERE id=(1)''').fetchall()
-    return render_template("details.html", projects=projects)
+    students = con.execute('''SELECT people FROM Project_table WHERE id=(1)''').fetchall()
+    project = con.execute('''SELECT project FROM Project_table WHERE id=(1)''').fetchall()
+    return render_template("details.html", students=students, project=project)
 
 #where id=1 get students
 
