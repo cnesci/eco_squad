@@ -14,13 +14,20 @@
     <br>
     <table id="myTable" class="table">
         <thead>
-            <th>Students Assigned</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Year Level</th>
         </thead>
         {% for c in students %}
         <tr>
             <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+            <td>{{ c[3] }}</td>`
         </tr>
         {% endfor %}
     </table>
+    <a href="update_student" class="btn btn-info" role="button">Edit Info</a>
 </div>
 {% endblock %}

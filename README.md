@@ -14,3 +14,5 @@ email notifications
 restructure code for nice design. code into functions
 how much fertiliser per day/how much you need to buy (user gets email that you need x much fertiliser this week)
 flow chart to update database
+
+if user enters 'and' do not insert into database

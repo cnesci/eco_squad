@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %} Edit Student Info {% endblock %}
+
+{% block description %}
+Enter the ID of the Student you would like to edit, then change the required fields.
+{% endblock %}
+
+{% block image %}
+{% endblock %}
+
+{% block content %}
+<br>
+<div>
+  <form action="/modify_student", method="POST">
+    ID:
+    <input type="number" name="m_id" value=1><br>
+    Updated First Name:
+    <input type="text" name="m_first_name"><br>
+    Updated Last Name:
+    <input type="text" name="m_last_name"><br>
+    Updated Year Level:
+    <input type="text" name="m_year"><br>
+    <button class="sub" type="submit">Update</button>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, request, make_response, session, url_for
 import sqlite3
 import os
+import boto3
+import ses
 
 app = Flask(__name__)
 projects=[]
@@ -10,7 +12,11 @@ delete_tasks=[]
 modify_projects=[]
 modify_tasks=[]
 students=[]
+student_list=[]
+names = []
 the_user_name=''
+student_list2=[]
+modify_students=[]
 
 #Connect database
 con = sqlite3.connect('projects.db', check_same_thread=False)
@@ -26,7 +32,7 @@ con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, descr
 con.execute('''CREATE TABLE Student_table(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, year INTEGER, project_id INTEGER)''')
 
 #Dummy data
-con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', ("Plant peas", "yesyesm", "Daily", "start_date", "end_date", "Tom, Jerry"))
+#con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', ("Plant peas", "yesyesm", "Daily", "start_date", "end_date", "Tom, Jerry"))
 
 #Login page
 @app.route('/login', methods=['POST'])
@@ -76,6 +82,17 @@ def add_project():
     "end_date" : request.form["m_end_date"],
     "people" : request.form["m_people"]
     }
+
+    student_list = projects["people"].split()
+    for y in student_list:
+        y.split(",")
+        print(y)
+        names.append(y)
+
+    for x in names:
+        if x == ("and"):
+            break
+        con.execute('''INSERT INTO Student_table(first_name) VALUES(?)''', (x,))
     con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', (projects["project"], projects["description"], projects["frequency"], projects["start_date"], projects["end_date"], projects["people"]))
     return redirect("/projects")
 
@@ -191,11 +208,33 @@ def add_student():
 #Show project details
 @app.route("/details")
 def details():
-    students = con.execute('''SELECT people FROM Project_table WHERE id=(1)''').fetchall()
+    students = con.execute('''SELECT * FROM Student_table''').fetchall()
     project = con.execute('''SELECT project FROM Project_table WHERE id=(1)''').fetchall()
     return render_template("details.html", students=students, project=project)
 
-#where id=1 get students
+#Modify Student
+@app.route("/update_student")
+def update_student():
+    return render_template("modify_student.html")
+
+@app.route("/modify_student", methods=["POST"])
+def modify_student():
+    modify_students = {
+    "id" : request.form["m_id"],
+    "first_name" : request.form["m_first_name"],
+    "last_name" : request.form["m_last_name"],
+    "year" : request.form["m_year"],
+    }
+    con.execute('''UPDATE Student_table SET first_name=(?), last_name=(?), year=(?) WHERE id=(?)''', (modify_students["first_name"], modify_students["last_name"], modify_students["year"], modify_students["id"]))
+    return redirect("/details")
+
+#Send email
+@app.route("/send_email")
+def send_email():
+    ses.ses_send()
+    return redirect("/")
+
+#def add project member
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)
