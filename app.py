@@ -17,6 +17,9 @@ names = []
 the_user_name=''
 student_list2=[]
 modify_students=[]
+fertiliser_list=[]
+global total_fertiliser
+total_fertiliser = 0
 
 #Connect database
 con = sqlite3.connect('projects.db', check_same_thread=False)
@@ -28,7 +31,7 @@ con.execute("DROP TABLE IF EXISTS Student_table;")
 
 #Create tables
 con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, frequency TEXT, start_date INTEGER, end_date INTEGER, people TEXT)''')
-con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, people INTEGER)''')
+con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, fertiliser INTEGER, people INTEGER)''')
 con.execute('''CREATE TABLE Student_table(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, year INTEGER, project_id INTEGER)''')
 
 #Dummy data
@@ -133,7 +136,7 @@ def modify_project():
 @app.route("/maintenance")
 def maintenance():
     tasks = con.execute("SELECT * FROM Maint_table").fetchall()
-    return render_template("maintenance.html",tasks=tasks)
+    return render_template("maintenance.html",tasks=tasks,total_fertiliser=total_fertiliser)
 
 #New maintenance task
 @app.route("/new_task")
@@ -147,9 +150,14 @@ def add_task():
     "description" : request.form["m_description"],
     "start_date" : request.form["m_start_date"],
     "frequency" : request.form["m_frequency"],
+    "fertiliser" : int(request.form["m_fertiliser"]),
     "people" : request.form["m_people"]
     }
-    con.execute('''INSERT INTO Maint_table(task,description,start_date,frequency,people) VALUES(?,?,?,?,?)''', (tasks["task"], tasks["description"], tasks["start_date"], tasks["frequency"], tasks["people"]))
+    
+    global total_fertiliser
+    total_fertiliser = (tasks["fertiliser"]) + total_fertiliser
+
+    con.execute('''INSERT INTO Maint_table(task,description,start_date,frequency,fertiliser,people) VALUES(?,?,?,?,?,?)''', (tasks["task"], tasks["description"], tasks["start_date"], tasks["frequency"], tasks["fertiliser"], tasks["people"]))
     return redirect("/maintenance")
 
 #Remove task
@@ -233,8 +241,6 @@ def modify_student():
 def send_email():
     ses.ses_send()
     return redirect("/")
-
-#def add project member
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)

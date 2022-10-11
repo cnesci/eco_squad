@@ -20,6 +20,7 @@ Tasks that should be regularly completed.
             <th>Description</th>
             <th>Start Date</th>
             <th>Frequency</th>
+            <th>Fertiliser Required (grams)</th>
             <th>People Assigned</th>
         </thead>
         {% for c in tasks %}
@@ -30,6 +31,7 @@ Tasks that should be regularly completed.
             <td>{{ c[3] }}</td>
             <td>{{ c[4] }}</td>
             <td>{{ c[5] }}</td>
+            <td>{{ c[6] }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -39,6 +41,7 @@ Tasks that should be regularly completed.
 <a href="/remove_task" class="btn btn-info" role="button">Remove Task</a>
 <a href="/update_task" class="btn btn-info" role="button">Update Task</a>
 
+<h3>Fertiliser required for this week: {{ total_fertiliser }}g</h3>
 {% endblock %}
 
 {% block main_table %} {% endblock %}
