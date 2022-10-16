@@ -1,5 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
+from app import total_fertiliser
 
 def ses_send():
     # Replace sender@example.com with your "From" address.
@@ -19,19 +20,16 @@ def ses_send():
     AWS_REGION = "ap-southeast-2"
 
     # The subject line for the email.
-    SUBJECT = "Amazon SES Test (SDK for Python)"
+    SUBJECT = "Weekly Fertiliser Order"
 
     # The email body for recipients with non-HTML email clients.
-    BODY_TEXT = ("Amazon SES Test (Python)\r\n"
-                "This email was sent with Amazon SES using the "
-                "AWS SDK for Python (Boto)."
-                )
+    BODY_TEXT = ("You will need to order" + (total_fertiliser) + "of fertiliser this week.")
                 
     # The HTML body of the email.
     BODY_HTML = """<html>
     <head></head>
     <body>
-    <h1>Amazon SES Test (SDK for Python)</h1>
+    <h1>Weekly Fertiliser Order</h1>
     <p>This email was sent with
         <a href='https://aws.amazon.com/ses/'>Amazon SES</a> using the
         <a href='https://aws.amazon.com/sdk-for-python/'>

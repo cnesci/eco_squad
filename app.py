@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, request, make_response, sess
 import sqlite3
 import os
 import boto3
-import ses
 
 app = Flask(__name__)
 projects=[]
@@ -154,8 +153,20 @@ def add_task():
     "people" : request.form["m_people"]
     }
     
+    #calculate fertiliser required for the week
+    if (tasks["frequency"]) == "Daily":
+        fertiliser_calc = (tasks["fertiliser"]) * 7
+    elif (tasks["frequency"]) == "Fortnightly":
+        fertiliser_calc = (tasks["fertiliser"]) / 2
+    elif (tasks["frequency"]) == "Monthly":
+        fertiliser_calc = (tasks["fertiliser"]) / 4
+    elif (tasks["frequency"]) == "Yearly":
+        fertiliser_calc = (tasks["fertiliser"]) / 52
+    else:
+        fertiliser_calc = (tasks["fertiliser"])
+
     global total_fertiliser
-    total_fertiliser = (tasks["fertiliser"]) + total_fertiliser
+    total_fertiliser = fertiliser_calc + total_fertiliser
 
     con.execute('''INSERT INTO Maint_table(task,description,start_date,frequency,fertiliser,people) VALUES(?,?,?,?,?,?)''', (tasks["task"], tasks["description"], tasks["start_date"], tasks["frequency"], tasks["fertiliser"], tasks["people"]))
     return redirect("/maintenance")
@@ -239,8 +250,67 @@ def modify_student():
 #Send email
 @app.route("/send_email")
 def send_email():
-    ses.ses_send()
-    return redirect("/")
+    # Replace sender@example.com with your "From" address.
+    # This address must be verified with Amazon SES.
+    SENDER = "Eco Squad <cnesci01@icloud.com>"
+
+    # Replace recipient@example.com with a "To" address. If your account 
+    # is still in the sandbox, this address must be verified.
+    RECIPIENT = "nescic@smc.sa.edu.au"
+
+    # Specify a configuration set. If you do not want to use a configuration
+    # set, comment the following variable, and the 
+    # ConfigurationSetName=CONFIGURATION_SET argument below.
+    #CONFIGURATION_SET = "ConfigSet"
+
+    # If necessary, replace us-west-2 with the AWS Region you're using for Amazon SES.
+    AWS_REGION = "ap-southeast-2"
+
+    # The subject line for the email.
+    SUBJECT = "Weekly Fertiliser Order"
+
+    # The email body for recipients with non-HTML email clients.
+    BODY_TEXT = ("You will need to order" + str(total_fertiliser) + "of fertiliser this week.")
+                
+    # The HTML body of the email.
+    BODY_HTML = render_template("email.html", total_fertiliser=str(total_fertiliser),name=request.cookies.get('Name'))
+
+    # The character encoding for the email.
+    CHARSET = "UTF-8"
+
+    # Create a new SES resource and specify a region.
+    client = boto3.client('ses',region_name=AWS_REGION)
+
+    # Try to send the email.
+    #Provide the contents of the email.
+    response = client.send_email(
+        Destination={
+            'ToAddresses': [
+                RECIPIENT,
+            ],
+        },
+        Message={
+            'Body': {
+                'Html': {
+                    'Charset': CHARSET,
+                    'Data': BODY_HTML,
+                },
+                'Text': {
+                    'Charset': CHARSET,
+                    'Data': BODY_TEXT,
+                },
+            },
+            'Subject': {
+                'Charset': CHARSET,
+                'Data': SUBJECT,
+            },
+        },
+        Source=SENDER,
+        # If you are not using a configuration set, comment or delete the
+        # following line
+        #ConfigurationSetName=CONFIGURATION_SET,
+    )
+    return redirect ("/")
 
 app.secret_key = os.urandom(12)
 app.run(debug=True)
