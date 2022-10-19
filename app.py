@@ -88,13 +88,15 @@ def add_project():
     student_list = projects["people"].split()
     for y in student_list:
         y.split(",")
-        print(y)
+        y.split("and")
+        y = y.replace(',',"")
         names.append(y)
 
     for x in names:
         if x == ("and"):
-            break
-        con.execute('''INSERT INTO Student_table(first_name) VALUES(?)''', (x,))
+            print("")
+        else:
+            con.execute('''INSERT INTO Student_table(first_name) VALUES(?)''', (x,))
     con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', (projects["project"], projects["description"], projects["frequency"], projects["start_date"], projects["end_date"], projects["people"]))
     return redirect("/projects")
 
@@ -228,13 +230,15 @@ def add_student():
 @app.route("/details")
 def details():
     students = con.execute('''SELECT * FROM Student_table''').fetchall()
-    project = con.execute('''SELECT project FROM Project_table WHERE id=(1)''').fetchall()
+    project = con.execute('''SELECT project FROM Project_table WHERE id=(1)''').fetchone()[0]
     return render_template("details.html", students=students, project=project)
 
 #Modify Student
 @app.route("/update_student")
 def update_student():
-    return render_template("modify_student.html")
+    student_firstname = con.execute('''SELECT first_name FROM Student_table WHERE id=(1)''').fetchone()[0]
+    print(student_firstname)
+    return render_template("modify_student.html",student_firstname=student_firstname)
 
 @app.route("/modify_student", methods=["POST"])
 def modify_student():
@@ -258,11 +262,6 @@ def send_email():
     # is still in the sandbox, this address must be verified.
     RECIPIENT = "nescic@smc.sa.edu.au"
 
-    # Specify a configuration set. If you do not want to use a configuration
-    # set, comment the following variable, and the 
-    # ConfigurationSetName=CONFIGURATION_SET argument below.
-    #CONFIGURATION_SET = "ConfigSet"
-
     # If necessary, replace us-west-2 with the AWS Region you're using for Amazon SES.
     AWS_REGION = "ap-southeast-2"
 
@@ -281,7 +280,6 @@ def send_email():
     # Create a new SES resource and specify a region.
     client = boto3.client('ses',region_name=AWS_REGION)
 
-    # Try to send the email.
     #Provide the contents of the email.
     response = client.send_email(
         Destination={
@@ -306,9 +304,6 @@ def send_email():
             },
         },
         Source=SENDER,
-        # If you are not using a configuration set, comment or delete the
-        # following line
-        #ConfigurationSetName=CONFIGURATION_SET,
     )
     return redirect ("/")
 
