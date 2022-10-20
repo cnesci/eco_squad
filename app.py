@@ -230,6 +230,7 @@ def add_student():
 @app.route("/details")
 def details():
     students = con.execute('''SELECT * FROM Student_table''').fetchall()
+    #students = con.execute('''SELECT * FROM Student_table WHERE project=()''').fetchall()
     project = con.execute('''SELECT project FROM Project_table WHERE id=(1)''').fetchone()[0]
     return render_template("details.html", students=students, project=project)
 
