@@ -33,9 +33,6 @@ con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, 
 con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, fertiliser INTEGER, people INTEGER)''')
 con.execute('''CREATE TABLE Student_table(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, year INTEGER, project_id INTEGER)''')
 
-#Dummy data
-#con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', ("Plant peas", "yesyesm", "Daily", "start_date", "end_date", "Tom, Jerry"))
-
 #Login page
 @app.route('/login', methods=['POST'])
 def do_admin_login():
