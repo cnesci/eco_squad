@@ -25,7 +25,7 @@
         {% for c in projects %}
         <tr>
             <td>{{ c[0] }}</td>
-            <td>{{ c[1] }}</td>
+            <td><a href="/details" class="detail">{{ c[1] }}</a></td>
             <td>{{ c[2] }}</td>
             <td>{{ c[3] }}</td>
             <td>{{ c[4] }}</td>
@@ -36,10 +36,8 @@
     </table>
     <a href="sort_by_dsc" class="btn btn-info" role="button">Sort By Due Date</a>
 </div>
-
 <a href="/new_project" class="btn btn-info" role="button">Add Project</a>
 <a href="/remove_project" class="btn btn-info" role="button">Remove Project</a>
 <a href="/update_project" class="btn btn-info" role="button">Update Project</a>
 {% endblock %}
-
 {% block main_table %} {% endblock %}

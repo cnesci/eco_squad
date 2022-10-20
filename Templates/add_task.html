@@ -14,7 +14,7 @@ Enter a task to add it to the database. If a field is not required you may leave
 <div>
   <form action="/add_task", method="POST">
   Task Name:
-  <input type="text" name="m_task" placeholder="Feed the fish"><br>
+  <input type="text" name="m_task" placeholder="Fertilise Tomato Plants"><br>
   Description:
   <input type="text" name="m_description"><br>
   Start Date:
@@ -27,6 +27,8 @@ Enter a task to add it to the database. If a field is not required you may leave
     <option value="Monthly">Monthly</option>
     <option value="Yearly">Yearly</option>
   </select>
+  Fertiliser required (grams):
+  <input type="number" name="m_fertiliser" value="0"><br>
   People Assigned:
   <input type="text" name="m_people" placeholder="John, Liam, Jessica"><br>
 
