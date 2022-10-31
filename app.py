@@ -31,7 +31,7 @@ con.execute("DROP TABLE IF EXISTS Student_table;")
 #Create tables
 con.execute('''CREATE TABLE Project_table(id INTEGER PRIMARY KEY, project TEXT, description TEXT, frequency TEXT, start_date INTEGER, end_date INTEGER, people TEXT)''')
 con.execute('''CREATE TABLE Maint_table(id INTEGER PRIMARY KEY, task TEXT, description TEXT, start_date INTEGER, frequency TEXT, fertiliser INTEGER, people INTEGER)''')
-con.execute('''CREATE TABLE Student_table(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, year INTEGER, project_id INTEGER)''')
+con.execute('''CREATE TABLE Student_table(id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, year INTEGER, project TEXT)''')
 
 #Login page
 @app.route('/login', methods=['POST'])
@@ -82,7 +82,9 @@ def add_project():
     "people" : request.form["m_people"]
     }
 
+#Ignore commas + and
     student_list = projects["people"].split()
+    names=[]
     for y in student_list:
         y.split(",")
         y.split("and")
@@ -93,7 +95,7 @@ def add_project():
         if x == ("and"):
             print("")
         else:
-            con.execute('''INSERT INTO Student_table(first_name) VALUES(?)''', (x,))
+            con.execute('''INSERT INTO Student_table(first_name,last_name,year,project) VALUES(?,?,?,?)''', (x,"","",projects["project"]))
     con.execute('''INSERT INTO Project_table(project,description,frequency,start_date,end_date,people) VALUES(?,?,?,?,?,?)''', (projects["project"], projects["description"], projects["frequency"], projects["start_date"], projects["end_date"], projects["people"]))
     return redirect("/projects")
 
@@ -221,15 +223,13 @@ def add_student():
     "year" : request.form["m_year"],
     }
     con.execute('''INSERT INTO Student_table(first_name,last_name,year) VALUES(?,?,?)''', (students["first_name"], students["last_name"], students["year"]))
-    return redirect("/projects")
+    return redirect("/students")
 
-#Show project details
-@app.route("/details")
-def details():
+#View a list of all students
+@app.route("/students")
+def students():
     students = con.execute('''SELECT * FROM Student_table''').fetchall()
-    #students = con.execute('''SELECT * FROM Student_table WHERE project=()''').fetchall()
-    project = con.execute('''SELECT project FROM Project_table WHERE id=(1)''').fetchone()[0]
-    return render_template("details.html", students=students, project=project)
+    return render_template("students.html", students=students)
 
 #Modify Student
 @app.route("/update_student")
@@ -247,7 +247,7 @@ def modify_student():
     "year" : request.form["m_year"],
     }
     con.execute('''UPDATE Student_table SET first_name=(?), last_name=(?), year=(?) WHERE id=(?)''', (modify_students["first_name"], modify_students["last_name"], modify_students["year"], modify_students["id"]))
-    return redirect("/details")
+    return redirect("/students")
 
 #Send email
 @app.route("/send_email")
